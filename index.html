@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Baggage Distribution Calculator</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f4f8;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        header {
+            background-color: #0044cc;
+            color: #fff;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        .container {
+            max-width: 100%;
+            margin: 10px;
+            padding: 15px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+        select, input[type="number"], button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        select:focus, input[type="number"]:focus, button:focus {
+            border-color: #0044cc;
+            box-shadow: 0 0 5px rgba(0, 68, 204, 0.5);
+            outline: none;
+        }
+        button {
+            background-color: #0044cc;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        button:hover {
+            background-color: #003bb5;
+        }
+        button:active {
+            transform: scale(0.98);
+        }
+        .results {
+            background-color: #f8f9fc;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .results p {
+            margin: 8px 0;
+            padding: 8px;
+            background: #ffffff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        footer {
+            background-color: #0044cc;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+            font-size: 12px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+        }
+        @media (min-width: 768px) {
+            .container {
+                max-width: 600px;
+                margin: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Baggage Distribution Calculator</h1>
+    </header>
+    
+    <div class="container">
+        <section>
+            <div class="form-group">
+                <label for="aircraft">Select Aircraft:</label>
+                <select id="aircraft" aria-label="Select Aircraft">
+                    <optgroup label="Jet2">
+                        <option value="jet2B738">LS B738: 2 > 3</option>
+                        <option value="jet2A321">LS A321: 3 > 4 > 2</option>
+                    </optgroup>
+                    <optgroup label="EasyJet">
+                        <option value="easyjetA319">U2 A319: 4 > 5 > 1</option>
+                        <option value="easyjetA320">U2 A320: 1 > 3 > 4</option>
+                        <option value="easyjetA321">U2 A321: 3 > 4 > 2</option>
+                    </optgroup>
+                    <optgroup label="Transavia">
+                        <option value="transaviaB738">HV B738: 2 > 3</option>
+                        <option value="transaviaA320">HV A320: 1 > 3 > 4</option>
+                        <option value="transaviaA321">HV A321: 3 > 4 > 2</option>
+                    </optgroup>
+                    <optgroup label="Eurowings">
+                        <option value="eurowingsA319">EW A319: 4 > 5 > 1</option>
+                        <option value="eurowingsA320">EW A320: 1 > 3 > 4 > 5</option>
+                    </optgroup>
+                    <optgroup label="Smartwings">
+                        <option value="smartwingsB738">QS B738: 2 > 3</option>
+                    </optgroup>
+                    <optgroup label="Norwegian">
+                        <option value="NorwegianB738">DY B738: 2 > 3</option>
+                    </optgroup>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="totalBags">Total Bags:</label>
+                <input type="number" id="totalBags" min="0" aria-label="Total Bags" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="totalWeight">Total Weight (kg):</label>
+                <input type="number" id="totalWeight" min="0" step="1" aria-label="Total Weight" required>
+            </div>
+            
+            <button type="button" onclick="calculate()">Calculate</button>
+        </section>
+        
+        <section class="results" id="results">
+            <h2>Results</h2>
+            <p id="hold1Result"></p>
+            <p id="hold2Result"></p>
+            <p id="hold3Result"></p>
+            <p id="hold4Result"></p>
+            <p id="hold5Result"></p>
+        </section>
+    </div>
+    
+    <footer>
+        <p>© 2024 Baggage Distribution Calculator</p>
+    </footer>
+
+    <!-- JavaScript files located in the js directory -->
+    <script src="js/calculate.js"></script>
+    <script src="js/Jet2B738.js"></script>
+    <script src="js/Jet2A321.js"></script>
+    <script src="js/EasyJetA320.js"></script>
+    <script src="js/EasyJetA319.js"></script>
+    <script src="js/EasyJetA321.js"></script>
+    <script src="js/TransaviaB738.js"></script>
+    <script src="js/TransaviaA320.js"></script>
+    <script src="js/TransaviaA321.js"></script>
+    <script src="js/SmartwingsB738.js"></script>
+    <script src="js/NorwegianB738.js"></script>
+    <script src="js/EurowingsA320.js"></script>
+    <script src="js/EurowingsA319.js"></script>
+</body>
+</html>
